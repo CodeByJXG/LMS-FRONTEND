@@ -1,0 +1,54 @@
+:root {
+  /* Base dark brown theme */
+  --color-bg: #3e2f2f;            /* dark brown background */
+  --color-text: #f5e6d0;          /* light text */
+  --color-link: #d4b483;          /* soft gold link */
+  --color-link-hover: #e0c19a;
+  --color-button-bg: #8b5e3c;     /* button brown */
+  --color-button-hover: #a97c5a;
+  --color-container-bg: #5a3d3d;  /* container background */
+}
+
+/* General body and layout */
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
+
+/* Links */
+a {
+  color: var(--color-link);
+}
+a:hover {
+  color: var(--color-link-hover);
+}
+
+/* Buttons */
+button {
+  border-radius: 8px;
+  border: none;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: var(--color-button-bg);
+  color: var(--color-text);
+  cursor: pointer;
+  transition: background-color 0.25s;
+}
+button:hover {
+  background-color: var(--color-button-hover);
+}
+
+/* Login container */
+.login-container {
+  width: 100%;
+  max-width: 400px;
+  background-color: var(--color-container-bg);
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}

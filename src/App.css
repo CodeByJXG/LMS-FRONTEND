@@ -1,0 +1,97 @@
+.login-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 2rem;
+}
+
+/* Dark brown login container */
+.login-container {
+  width: 100%;
+  max-width: 400px;
+  background-color: #5a3d3d; /* dark brown */
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  color: #f5e6d0; /* light text */
+}
+
+.login-container h2 {
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+/*.login-container input {
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background-color: #8b5e3c; /* slightly lighter brown for inputs 
+  color: #f5e6d0;
+}
+*/
+
+.login-container input {
+  width: 100%; /* full width like the button */
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background-color: #8b5e3c; /* slightly lighter brown for inputs */
+  color: #f5e6d0;
+  box-sizing: border-box; /* ensures padding doesn't overflow */
+}
+
+
+
+.login-container input::placeholder {
+  color: #f5e6d0aa;
+}
+
+.login-container button {
+  width: 100%;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 5px;
+  background-color: #8b5e3c; /* dark brown button */
+  color: #f5e6d0;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.login-container button:hover {
+  background-color: #a97c5a; /* lighter brown on hover */
+}
+
+.role-buttons {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.role-buttons button {
+  padding: 0.5rem 1rem;
+  margin: 0 0.5rem;
+  border: none;
+  border-radius: 5px;
+  background-color: #7a4c3c; /* brown for role buttons */
+  color: #f5e6d0;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.role-buttons button.active {
+  background-color: #a97c5a; /* lighter brown for active */
+  color: #f5e6d0;
+}
+
+.links {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.real-admin-link {
+  margin-top: 1rem;
+}
