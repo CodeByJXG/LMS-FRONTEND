@@ -1,23 +1,32 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import HeaderButton from "../components/HeaderButton";
 import DashboardButton from "../components/DashboardButton";
 import MessageModal from "../components/MessageModal";
-import { FiMessageSquare } from "react-icons/fi";
+import { FiMessageSquare, FiSettings } from "react-icons/fi"; 
 import "../styles/LibrarianDashboard.css";
 
 function LibrarianDashboard() {
   const navigate = useNavigate();
-  const [isMessageModalOpen, setIsMessageModalOpen] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   return (
     <div className="dashboard-page">
-      {/* Top-left settings button */}
-      <HeaderButton onClick={() => navigate("/librarian/credentials")} />
+      {/* Settings Gear - Positioned absolutely so it won't affect the vertical flow */}
+      <button 
+        className="settings-gear-btn" 
+        onClick={() => navigate("/librarian/credentials")}
+        title="Edit Credentials"
+      >
+        <FiSettings size={24} />
+      </button>
 
-      {/* Center content */}
       <div className="dashboard-content">
-        <h1 className="dashboard-title">Librarian</h1>
+        <header className="dashboard-header">
+          <h1 className="dashboard-title">Librarian</h1>
+          <div className="dashboard-divider"></div>
+          <p className="dashboard-subtitle">Management Portal</p>
+        </header>
+        
         <div className="dashboard-container">
           <DashboardButton text="Modify Books" onClick={() => navigate("/librarian/modify")} />
           <DashboardButton text="View All Books" onClick={() => navigate("/librarian/viewallbooks")} />
@@ -25,18 +34,11 @@ function LibrarianDashboard() {
         </div>
       </div>
 
-      {/* Bottom-right message button */}
-      <button 
-        className="message-button" 
-        onClick={() => setIsMessageModalOpen(true)}
-      >
-        <FiMessageSquare size={20} />
+      <button className="floating-message-btn" onClick={() => setShowModal(true)}>
+        <FiMessageSquare size={24} />
       </button>
 
-      {/* Message Modal */}
-      {isMessageModalOpen && (
-        <MessageModal onClose={() => setIsMessageModalOpen(false)} />
-      )}
+      {showModal && <MessageModal onClose={() => setShowModal(false)} />}
     </div>
   );
 }

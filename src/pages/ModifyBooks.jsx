@@ -1,236 +1,175 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import HeaderButton from "../components/HeaderButton";
-import { FiEdit, FiTrash2, FiPlus } from "react-icons/fi";
+import { FiEdit, FiTrash2, FiPlus, FiArrowLeft, FiFileText } from "react-icons/fi";
+import HeaderButton from "../components/HeaderButton"; // Added this back
 import "../styles/ModifyBooks.css";
 
-function ModifyBooks() {
-  const navigate = useNavigate();
-  const [books, setBooks] = useState([
-    { id: 1, title: "Book One", author: "Author A", release: "2023-01-01", availability: 5, pdfFile: null },
-    { id: 2, title: "Book Two", author: "Author B", release: "2023-02-01", availability: 0, pdfFile: null },
-  ]);
-
-  // Modal state
-  const [isAddOpen, setIsAddOpen] = useState(false);
-  const [isEditOpen, setIsEditOpen] = useState(false);
-  const [currentBook, setCurrentBook] = useState(null);
-  const [formData, setFormData] = useState({ 
-    title: "", 
-    author: "", 
-    release: "", 
-    availability: 0,
-    pdfFile: null 
-  });
-  const [errors, setErrors] = useState({});
-
-  const handleDelete = (id) => {
-    if (window.confirm("Are you sure you want to delete this book?")) {
-      setBooks(books.filter((b) => b.id !== id));
+function BookModal({ isOpen, type, bookData, onClose, onSave }) {
+  // Use empty string for availability to prevent the "stuck 0" issue
+  const [formData, setFormData] = useState({ title: "", author: "", availability: "" });
+  const fileInputRef = useRef(null);
+  
+  useEffect(() => {
+    if (isOpen) {
+      // If editing, load data; if adding, start fresh with empty string
+      setFormData(bookData ? { ...bookData } : { title: "", author: "", availability: "" });
     }
-  };
+  }, [isOpen, bookData]);
 
-  const openEdit = (book) => {
-    setCurrentBook(book);
-    setFormData({ ...book });
-    setIsEditOpen(true);
-    setErrors({});
-  };
+  const handleSave = () => {
+    const fileSelected = fileInputRef.current?.files[0];
 
-  const handleAdd = () => {
-    setFormData({ title: "", author: "", release: "", availability: 0, pdfFile: null });
-    setIsAddOpen(true);
-    setErrors({});
-  };
-
-  const handleSaveEdit = () => {
-    if (!formData.availability && formData.availability !== 0) {
-      setErrors({ availability: "Please enter availability" });
-      return;
-    }
-    setBooks(books.map((b) => (b.id === currentBook.id ? formData : b)));
-    setIsEditOpen(false);
-    setErrors({});
-  };
-
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file && file.type === "application/pdf") {
-      setFormData({ ...formData, pdfFile: file });
-      setErrors({ ...errors, pdfFile: null });
-    } else if (file) {
-      alert("Please select a PDF file only.");
-      e.target.value = null;
-      setFormData({ ...formData, pdfFile: null });
-    }
-  };
-
-  const validateAddForm = () => {
-    const newErrors = {};
-    
-    if (!formData.title || formData.title.trim() === "") {
-      newErrors.title = "Title is required";
-    }
-    
-    if (!formData.author || formData.author.trim() === "") {
-      newErrors.author = "Author is required";
-    }
-    
-    if (!formData.release) {
-      newErrors.release = "Release date is required";
-    }
-    
-    if (!formData.pdfFile) {
-      newErrors.pdfFile = "PDF file is required";
-    }
-    
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const handleAddBook = () => {
-    if (!validateAddForm()) {
-      alert("Please fill in all required fields.");
+    // Check all text inputs
+    if (!formData.title.trim() || !formData.author.trim() || formData.availability === "") {
+      alert("Please fill in all fields (Title, Author, and Stock).");
       return;
     }
 
-    const newBook = { ...formData, id: Date.now() };
-    setBooks([...books, newBook]);
-    setIsAddOpen(false);
-    setErrors({});
+    // Strict PDF Requirement for adding a NEW book
+    if (type === "add" && !fileSelected) {
+      alert("Error: A PDF manuscript is required to archive a new book.");
+      return;
+    }
+
+    onSave(formData);
   };
+
+  if (!isOpen) return null;
 
   return (
-    <div className="modify-page">
-      <HeaderButton onClick={() => navigate("/librarian/credentials")} />
-      <h1 className="modify-title">Modify Books</h1>
+    <div className="modal-overlay active" onClick={(e) => e.target === e.currentTarget && onClose()}>
+      <div className="book-form">
+        <h2>{type === "add" ? "New Archive" : "Edit Record"}</h2>
+        
+        <label>
+          Book Title
+          <input 
+            placeholder="e.g. The Great Gatsby" 
+            value={formData.title} 
+            onChange={e => setFormData({ ...formData, title: e.target.value })} 
+          />
+        </label>
 
-      <div className="modify-container">
-        {books.map((book) => (
-          <div className="book-card" key={book.id}>
-            <div className="book-info">
-              <p className="book-title">{book.title}</p>
-              <p className="book-author">{book.author}</p>
-              <p className="book-release">{book.release}</p>
-              <p className="book-availability">{book.availability}/{book.availability}</p>
-            </div>
-            <div className="book-actions">
-              <button onClick={() => openEdit(book)}><FiEdit /></button>
-              <button onClick={() => handleDelete(book.id)}><FiTrash2 /></button>
-            </div>
+        <label>
+          Author Name
+          <input 
+            placeholder="e.g. F. Scott Fitzgerald" 
+            value={formData.author} 
+            onChange={e => setFormData({ ...formData, author: e.target.value })} 
+          />
+        </label>
+
+        <label>
+          Stock Quantity
+          <input 
+            type="number" 
+            placeholder="Enter amount" 
+            value={formData.availability} 
+            onChange={e => setFormData({ ...formData, availability: e.target.value })} 
+          />
+        </label>
+
+        <label className="file-label">
+          Manuscript (PDF Required)
+          <div className="file-input-wrapper">
+            <FiFileText className="file-icon" />
+            <input type="file" accept=".pdf" ref={fileInputRef} />
           </div>
-        ))}
+        </label>
+
+        <div className="book-form-actions">
+          <button className="save-btn" onClick={handleSave}>Save Archive</button>
+          <button className="cancel-btn" onClick={onClose}>Cancel</button>
+        </div>
       </div>
-
-      {/* Add button */}
-      <button className="add-btn" onClick={handleAdd}><FiPlus /></button>
-
-      {/* Return to dashboard */}
-      <button className="return-btn" onClick={() => navigate("/librarian")}>Return to Dashboard</button>
-
-      {/* Add Modal */}
-      {isAddOpen && (
-        <div className="modal-overlay" onClick={() => setIsAddOpen(false)}>
-          <div className="book-form" onClick={(e) => e.stopPropagation()}>
-            <h2>Add New Book</h2>
-            
-            <label>
-              Title *
-              <input 
-                type="text" 
-                placeholder="Enter book title" 
-                value={formData.title} 
-                onChange={(e) => setFormData({ ...formData, title: e.target.value })} 
-                className={errors.title ? "error" : ""}
-              />
-              {errors.title && <span className="error-message">{errors.title}</span>}
-            </label>
-            
-            <label>
-              Author *
-              <input 
-                type="text" 
-                placeholder="Enter author name" 
-                value={formData.author} 
-                onChange={(e) => setFormData({ ...formData, author: e.target.value })} 
-                className={errors.author ? "error" : ""}
-              />
-              {errors.author && <span className="error-message">{errors.author}</span>}
-            </label>
-            
-            <label>
-              Release Date *
-              <input 
-                type="date" 
-                value={formData.release} 
-                onChange={(e) => setFormData({ ...formData, release: e.target.value })} 
-                className={errors.release ? "error" : ""}
-              />
-              {errors.release && <span className="error-message">{errors.release}</span>}
-            </label>
-            
-            <label>
-              Availability *
-              <input 
-                type="number" 
-                placeholder="Number of copies" 
-                min="0"
-                value={formData.availability} 
-                onChange={(e) => setFormData({ ...formData, availability: parseInt(e.target.value) || 0 })} 
-              />
-            </label>
-
-            <label className="file-upload-wrapper">
-              Upload PDF File *
-              <input 
-                type="file" 
-                accept=".pdf,application/pdf"
-                onChange={handleFileChange}
-                className={errors.pdfFile ? "error" : ""}
-              />
-              {formData.pdfFile && (
-                <span className="file-info">Selected: {formData.pdfFile.name}</span>
-              )}
-              {!formData.pdfFile && !errors.pdfFile && (
-                <span className="file-info">Only PDF files are accepted</span>
-              )}
-              {errors.pdfFile && <span className="error-message">{errors.pdfFile}</span>}
-            </label>
-
-            <div className="book-form-actions">
-              <button className="save-btn" onClick={handleAddBook}>Add Book</button>
-              <button className="cancel-btn" onClick={() => setIsAddOpen(false)}>Cancel</button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Edit Modal */}
-      {isEditOpen && (
-        <div className="modal-overlay" onClick={() => setIsEditOpen(false)}>
-          <div className="book-form" onClick={(e) => e.stopPropagation()}>
-            <h2>Edit Book</h2>
-            <label>
-              Availability
-              <input 
-                type="number" 
-                placeholder="Number of copies" 
-                min="0"
-                value={formData.availability} 
-                onChange={(e) => setFormData({ ...formData, availability: parseInt(e.target.value) || 0 })} 
-                className={errors.availability ? "error" : ""}
-              />
-              {errors.availability && <span className="error-message">{errors.availability}</span>}
-            </label>
-            <div className="book-form-actions">
-              <button className="save-btn" onClick={handleSaveEdit}>Save Changes</button>
-              <button className="cancel-btn" onClick={() => setIsEditOpen(false)}>Cancel</button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
 
-export default ModifyBooks;
+export default function ModifyBooks() {
+  const navigate = useNavigate();
+  const [books, setBooks] = useState([
+    { id: 1, title: "The Great Gatsby", author: "F. Scott Fitzgerald", availability: 12 },
+    { id: 2, title: "Modern Physics", author: "Albert Einstein", availability: 3 },
+    { id: 3, title: "Empty Journal", author: "Unknown", availability: 0 }
+  ]);
+
+  const [modal, setModal] = useState({ isOpen: false, type: "add", data: null });
+
+  const handleDelete = (id, title) => {
+    if (window.confirm(`Are you certain you wish to delete "${title}"?`)) {
+      setBooks(books.filter(b => b.id !== id));
+    }
+  };
+
+  return (
+    <div className="modify-page">
+      {/* 1. Header Button for Credentials (Top Left) */}
+      <HeaderButton onClick={() => navigate("/librarian/credentials")} />
+
+      <div className="title-wrapper">
+        <h1 className="modify-title">Library Inventory</h1>
+      </div>
+
+      <div className="modify-container">
+        {books.map(book => {
+          // Calculate stock styles dynamically
+          const count = Number(book.availability);
+          let stockClass = "stock-green";
+          let stockLabel = `In Stock: ${count}`;
+
+          if (count <= 0) {
+            stockClass = "stock-red";
+            stockLabel = "OUT OF STOCK";
+          } else if (count < 5) {
+            stockClass = "stock-yellow";
+            stockLabel = `LOW STOCK: ${count}`;
+          }
+
+          return (
+            <div className="book-card" key={book.id}>
+              <div className="book-info">
+                <p className="book-title">{book.title}</p>
+                <p className="book-author">By {book.author}</p>
+                <p className={`book-availability ${stockClass}`}>{stockLabel}</p>
+              </div>
+              <div className="book-actions">
+                <button onClick={() => setModal({ isOpen: true, type: "edit", data: book })}>
+                  <FiEdit />
+                </button>
+                <button onClick={() => handleDelete(book.id, book.title)}>
+                  <FiTrash2 />
+                </button>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* 2. Back Button (Below the Container) */}
+      <button className="back-menu-btn" onClick={() => navigate("/librarian")}>
+        <FiArrowLeft /> Back to Dashboard
+      </button>
+
+      {/* 3. Floating Add Button */}
+      <button className="add-btn" onClick={() => setModal({ isOpen: true, type: "add", data: null })}>
+        <FiPlus />
+      </button>
+
+      <BookModal 
+        isOpen={modal.isOpen} 
+        type={modal.type} 
+        bookData={modal.data} 
+        onClose={() => setModal({ ...modal, isOpen: false })} 
+        onSave={(data) => {
+          if (modal.type === "add") {
+            setBooks([...books, { ...data, id: Date.now() }]);
+          } else {
+            setBooks(books.map(b => b.id === modal.data.id ? { ...b, ...data } : b));
+          }
+          setModal({ ...modal, isOpen: false });
+        }}
+      />
+    </div>
+  );
+}

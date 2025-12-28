@@ -1,31 +1,27 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import "../styles/LayoutPage.css";
 
-function CreateAccountPage() {
+function CreateAccountForm() {
+  const navigate = useNavigate();
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-
-  const navigate = useNavigate(); // to redirect after success
 
   const handleCreate = async (e) => {
     e.preventDefault();
-
-    const newUser = {
-      username,
-      password,
-      role: "USER" // Only normal user
-    };
-
+    setError("");
     setLoading(true);
 
     try {
-      const response = await fetch("http://localhost:8080/api/auth/register", {
+      const requestBody = { username, password, role: "USER" }; // Only user accounts
+
+      const response = await fetch("http://localhost:8080/api/users/create", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newUser),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(requestBody),
       });
 
       if (!response.ok) {
@@ -33,18 +29,9 @@ function CreateAccountPage() {
         throw new Error(errorData.message || "Failed to create account");
       }
 
-      alert("Account created successfully! You can now login.");
-
-      // Clear form
-      setUsername("");
-      setPassword("");
-
-      // Redirect to login page
-      navigate("/login");
-
-    } catch (error) {
-      console.error(error);
-      alert("Error: " + error.message);
+      navigate("/login"); // Go back to login after successful creation
+    } catch (err) {
+      setError(err.message || "Failed to create account");
     } finally {
       setLoading(false);
     }
@@ -73,12 +60,17 @@ function CreateAccountPage() {
             {loading ? "Creating..." : "Create Account"}
           </button>
         </form>
-        <div className="links">
-          <Link to="/login">Back to Login</Link>
+
+        {error && <p className="error-message">{error}</p>}
+
+        <div className="form-footer">
+          <p>
+            Already have an account? <Link to="/login">Login</Link>
+          </p>
         </div>
       </div>
     </div>
   );
 }
 
-export default CreateAccountPage;
+export default CreateAccountForm;

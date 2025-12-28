@@ -1,159 +1,117 @@
-import React, { useState } from "react";
-import { FiX, FiSend, FiArrowLeft } from "react-icons/fi";
+import React, { useEffect, useState } from "react";
+import { FiX, FiSend, FiSearch } from "react-icons/fi";
 import "../styles/MessageModal.css";
 
 function MessageModal({ onClose }) {
   const [selectedUser, setSelectedUser] = useState(null);
   const [messageText, setMessageText] = useState("");
-  
-  // Sample conversations data
-  const [conversations] = useState([
-    {
-      id: 1,
-      userName: "John Doe",
-      userAvatar: "JD",
-      lastMessage: "Hi, I need help with a book request",
-      timestamp: "2 min ago",
-      unread: 2,
-      messages: [
-        { id: 1, text: "Hi, I need help with a book request", sender: "user", time: "10:30 AM" },
-        { id: 2, text: "Sure! How can I help you?", sender: "librarian", time: "10:32 AM" },
-        { id: 3, text: "I'm looking for 'The Great Gatsby'", sender: "user", time: "10:33 AM" },
-      ]
-    },
-    {
-      id: 2,
-      userName: "Jane Smith",
-      userAvatar: "JS",
-      lastMessage: "Thank you for your help!",
-      timestamp: "1 hour ago",
-      unread: 0,
-      messages: [
-        { id: 1, text: "Hello! Can I extend my book loan?", sender: "user", time: "Yesterday" },
-        { id: 2, text: "Yes, I can extend it for you.", sender: "librarian", time: "Yesterday" },
-        { id: 3, text: "Thank you for your help!", sender: "user", time: "Yesterday" },
-      ]
-    },
-    {
-      id: 3,
-      userName: "Mike Johnson",
-      userAvatar: "MJ",
-      lastMessage: "When does the library close today?",
-      timestamp: "3 hours ago",
-      unread: 1,
-      messages: [
-        { id: 1, text: "When does the library close today?", sender: "user", time: "3:00 PM" },
-      ]
-    },
-  ]);
+  const [isVisible, setIsVisible] = useState(false);
 
-  const handleSendMessage = () => {
-    if (messageText.trim() && selectedUser) {
-      // Here you would add the message to the conversation
-      console.log("Sending message:", messageText);
-      setMessageText("");
-    }
-  };
+  const users = [...Array(14)].map((_, i) => ({
+    id: i,
+    name: i === 0 ? "Alice Johnson" : `Reader ${i + 1}`,
+    online: i % 2 === 0,
+    lastMsg: "Available for pickup...",
+    time: "3m"
+  }));
 
-  const handleKeyPress = (e) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      handleSendMessage();
-    }
+  useEffect(() => {
+    setTimeout(() => setIsVisible(true), 10);
+  }, []);
+
+  const handleClose = () => {
+    setIsVisible(false);
+    setTimeout(onClose, 300);
   };
 
   return (
-    <div className="message-modal-overlay" onClick={onClose}>
-      <div className="message-modal" onClick={(e) => e.stopPropagation()}>
+    <div className={`nb-overlay ${isVisible ? "active" : ""}`} onClick={handleClose}>
+      <div className="nb-floating-card" onClick={(e) => e.stopPropagation()}>
         
-        {/* Conversations List View */}
-        {!selectedUser ? (
-          <>
-            <div className="message-modal-header">
-              <h2>Messages</h2>
-              <button className="close-modal-btn" onClick={onClose}>
-                <FiX />
+        {/* SIDEBAR */}
+        <aside className={`nb-side ${selectedUser ? "mobile-hidden" : "mobile-full"}`}>
+          <div className="nb-side-header">
+            <div className="nb-logo-row">
+              <button className="nb-text-back-btn" onClick={handleClose}>
+                DASHBOARD
               </button>
+              <h1>NawungBook</h1>
             </div>
+          </div>
+          
+          <div className="nb-search-box">
+            <FiSearch className="nb-s-icon" />
+            <input type="text" placeholder="Search NawungBook" />
+          </div>
 
-            <div className="conversations-list">
-              {conversations.map((conv) => (
-                <div
-                  key={conv.id}
-                  className="conversation-item"
-                  onClick={() => setSelectedUser(conv)}
-                >
-                  <div className="conversation-avatar">{conv.userAvatar}</div>
-                  <div className="conversation-content">
-                    <div className="conversation-header">
-                      <span className="conversation-name">{conv.userName}</span>
-                      <span className="conversation-time">{conv.timestamp}</span>
-                    </div>
-                    <div className="conversation-preview">
-                      <span className={conv.unread > 0 ? "unread-message" : ""}>
-                        {conv.lastMessage}
-                      </span>
-                      {conv.unread > 0 && (
-                        <span className="unread-badge">{conv.unread}</span>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </>
-        ) : (
-          /* Chat View */
-          <>
-            <div className="message-modal-header chat-header">
-              <button 
-                className="back-btn" 
-                onClick={() => setSelectedUser(null)}
+          <div className="nb-list">
+            {users.map((user) => (
+              <div 
+                key={user.id} 
+                className={`nb-user-item ${selectedUser?.id === user.id ? "active" : ""}`}
+                onClick={() => setSelectedUser(user)}
               >
-                <FiArrowLeft />
-              </button>
-              <div className="chat-user-info">
-                <div className="conversation-avatar small">{selectedUser.userAvatar}</div>
-                <span className="chat-user-name">{selectedUser.userName}</span>
+                <div className="nb-avatar-wrap">
+                  <div className="nb-av">{user.name.charAt(0)}</div>
+                  {user.online && <span className="nb-dot"></span>}
+                </div>
+                <div className="nb-info">
+                  <span className="nb-nm">{user.name}</span>
+                  <p className="nb-pvw">{user.lastMsg}</p>
+                </div>
               </div>
-              <button className="close-modal-btn" onClick={onClose}>
-                <FiX />
-              </button>
-            </div>
+            ))}
+          </div>
+        </aside>
 
-            <div className="chat-messages">
-              {selectedUser.messages.map((msg) => (
-                <div
-                  key={msg.id}
-                  className={`message ${msg.sender === "librarian" ? "sent" : "received"}`}
-                >
-                  <div className="message-bubble">
-                    <p>{msg.text}</p>
-                    <span className="message-time">{msg.time}</span>
+        {/* CHAT MAIN */}
+        <main className={`nb-main ${!selectedUser ? "mobile-hidden" : "mobile-full"}`}>
+          {selectedUser ? (
+            <>
+              <header className="nb-main-header">
+                <div className="nb-header-left">
+                  <button className="nb-text-back-btn mobile-only" onClick={() => setSelectedUser(null)}>
+                    BACK
+                  </button>
+                  <div className="nb-av-small">{selectedUser.name.charAt(0)}</div>
+                  <div className="nb-user-status">
+                    <h4>{selectedUser.name}</h4>
+                    <span>Active Now</span>
                   </div>
                 </div>
-              ))}
-            </div>
+                <div className="nb-main-ops">
+                  {/* Video and Audio icons removed */}
+                  <button className="nb-close-x-btn" onClick={handleClose}>
+                    <FiX />
+                  </button>
+                </div>
+              </header>
 
-            <div className="chat-input-container">
-              <input
-                type="text"
-                placeholder="Type a message..."
-                value={messageText}
-                onChange={(e) => setMessageText(e.target.value)}
-                onKeyPress={handleKeyPress}
-                className="chat-input"
-              />
-              <button 
-                className="send-btn" 
-                onClick={handleSendMessage}
-                disabled={!messageText.trim()}
-              >
-                <FiSend />
-              </button>
+              <div className="nb-messages">
+                <div className="nb-row them"><div className="nb-bubble">Welcome to NawungBook.</div></div>
+                <div className="nb-row me"><div className="nb-bubble">The archive is open. How can I assist you?</div></div>
+              </div>
+
+              <footer className="nb-footer">
+                <div className="nb-input-pill">
+                  <input 
+                    placeholder="Aa" 
+                    value={messageText}
+                    onChange={(e) => setMessageText(e.target.value)}
+                  />
+                  <button className="nb-send-action" disabled={!messageText.trim()}>
+                    <FiSend />
+                  </button>
+                </div>
+              </footer>
+            </>
+          ) : (
+            <div className="nb-empty-state">
+              <h2>NawungBook</h2>
+              <p>Select a reader to start the correspondence</p>
             </div>
-          </>
-        )}
+          )}
+        </main>
       </div>
     </div>
   );
