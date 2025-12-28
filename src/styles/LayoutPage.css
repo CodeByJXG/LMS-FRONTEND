@@ -268,3 +268,50 @@
     width: 100%;
   }
 }
+/* ========================
+   NAWUNGBOOK LOGO (HIGHER & FLOATING)
+   ======================== */
+.login-logo-wrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  /* -340px pushes it significantly higher above the login container */
+  transform: translate(-50%, -340px); 
+  z-index: 20;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+}
+
+.nb-main-logo {
+  font-size: 6.5rem; 
+  color: #e2b053;
+  filter: drop-shadow(0 0 25px rgba(226, 176, 83, 0.5));
+  /* Added slow floating animation */
+  animation: slowFloat 4s ease-in-out infinite;
+}
+
+/* Keyframes for the slow up and down movement */
+@keyframes slowFloat {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px); /* Moves up by 20px */
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+/* Responsive adjustment for mobile */
+@media (max-width: 500px) {
+  .login-logo-wrapper {
+    /* Adjusted for mobile so it doesn't go off-screen */
+    transform: translate(-50%, -280px);
+  }
+  .nb-main-logo {
+    font-size: 4.5rem;
+  }
+}

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import LoginForm from "../components/LoginForm";
+import { FiBookOpen } from "react-icons/fi"; // 1. Import the open book icon
 import "../styles/LayoutPage.css";
 
 function LoginPage() {
@@ -12,6 +13,11 @@ function LoginPage() {
       <button className="info-btn" onClick={() => setShowInfo(true)}>
         Info
       </button>
+
+      {/* 2. Logo Wrapper placed above the form */}
+      <div className="login-logo-wrapper">
+        <FiBookOpen className="nb-main-logo" />
+      </div>
 
       {/* Login Form */}
       <LoginForm />
@@ -41,14 +47,14 @@ function LoginPage() {
               Do you want to contact the real admin to get the privilege to become a librarian?
             </p>
             <div className="admin-prompt-buttons">
-        <button
-          className="yes-btn"
-          onClick={() => {
-            window.open("https://www.facebook.com/profile.php?id=61584060152988", "_blank");
-          }}
-        >
-          Yes
-        </button>
+              <button
+                className="yes-btn"
+                onClick={() => {
+                  window.open("https://www.facebook.com/profile.php?id=61584060152988", "_blank");
+                }}
+              >
+                Yes
+              </button>
               <button 
                 className="no-btn"
                 onClick={() => setShowAdminPrompt(false)}

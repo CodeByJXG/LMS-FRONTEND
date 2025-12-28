@@ -193,6 +193,20 @@
   background: rgba(255, 255, 255, 0.95); font-size: 1rem;
 }
 
+/* ============================================
+   Placeholder Styling (NEW)
+   ============================================ */
+.book-form input::placeholder {
+  color: rgba(75, 46, 42, 0.4);
+  font-style: italic;
+  font-weight: 500;
+  opacity: 1;
+}
+
+.book-form input[type="number"] {
+  -moz-appearance: textfield;
+}
+
 .book-form-actions { display: flex; gap: 0.75rem; margin-top: 1.5rem; }
 
 .save-btn { background: linear-gradient(135deg, var(--color-add-btn) 0%, #218838 100%); color: #fff; flex: 2; }
@@ -210,21 +224,9 @@
 .modify-container::-webkit-scrollbar-thumb { background: var(--color-accent); border-radius: 10px; }
 
 /* Stock Color Logic */
-.stock-red {
-  color: #ff4d4d !important;
-  font-weight: bold;
-  text-shadow: 0 0 10px rgba(255, 77, 77, 0.3);
-}
-
-.stock-yellow {
-  color: #ffd633 !important;
-  font-weight: bold;
-}
-
-.stock-green {
-  color: #2ecc71 !important;
-  font-weight: bold;
-}
+.stock-red { color: #ff4d4d !important; font-weight: bold; text-shadow: 0 0 10px rgba(255, 77, 77, 0.3); }
+.stock-yellow { color: #ffd633 !important; font-weight: bold; }
+.stock-green { color: #2ecc71 !important; font-weight: bold; }
 
 /* Status Preview in Modal */
 .status-preview {
@@ -237,166 +239,27 @@
 }
 
 /* PDF File Input Styling */
-.file-input-wrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
-  background: rgba(255, 255, 255, 0.1);
-  border: 2px dashed var(--color-accent);
-  border-radius: 10px;
-  padding: 10px;
-  transition: 0.3s;
-}
+.file-input-wrapper { position: relative; display: flex; align-items: center; background: rgba(255, 255, 255, 0.08); border: 2px dashed var(--color-accent); border-radius: 12px; padding: 12px 16px; transition: all 0.3s ease; cursor: pointer; gap: 12px; width: 100%; box-sizing: border-box; }
+.file-input-wrapper:hover { background: rgba(212, 165, 116, 0.15); border-color: var(--color-accent); }
+.file-input-wrapper.has-file { background: rgba(40, 167, 69, 0.15); border: 2px solid #28a745; border-style: solid; }
+.file-choose-btn { background: linear-gradient(135deg, #28a745 0%, #218838 100%); color: white; padding: 10px 20px; border-radius: 8px; font-size: 0.95rem; font-weight: 600; white-space: nowrap; flex-shrink: 0; transition: background 0.3s ease; }
+.file-choose-btn:hover { background: #218838; }
+.file-name-text { color: var(--color-text); font-size: 0.95rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; min-width: 0; }
+.file-name-text:empty::before { content: "No file chosen"; color: rgba(255, 255, 255, 0.5); font-style: italic; }
+.file-input-wrapper.has-file .file-name-text { color: #28a745; font-weight: 600; }
+.file-input-wrapper input[type="file"] { position: absolute; left: 0; top: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; z-index: 2; }
+.file-input-wrapper.required { border-color: var(--color-accent); }
 
-.file-input-wrapper:hover {
-  background: rgba(212, 165, 116, 0.1);
-}
-
-.file-icon {
-  font-size: 1.5rem;
-  color: var(--color-accent);
-  margin-right: 10px;
-}
-
-.file-input-wrapper input[type="file"] {
-  background: transparent;
-  color: var(--color-text);
-  font-size: 0.8rem;
-  cursor: pointer;
-  border: none;
-  padding: 0;
-}
-
-/* Placeholder Color Fix */
-::placeholder {
-  color: rgba(75, 46, 42, 0.5);
-  font-style: italic;
-}
-/* ============================================
-   Page Layout - FIXED
-   ============================================ */
-.modify-page {
-  position: relative;
-  height: 100vh;
-  width: 100%;
-  background: linear-gradient(135deg, #4b2e2a 0%, #5a3d3d 50%, #4b2e2a 100%);
-  background-size: 400% 400%;
-  animation: gradientFlow 20s ease infinite;
-  color: var(--color-text);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  overflow: hidden; 
-  padding: 1.5rem 1rem; /* Slightly reduced padding */
-  box-sizing: border-box;
-}
-
-.title-wrapper {
-  margin-bottom: 1rem; /* Reduced margin */
-}
-
-.modify-title {
-  font-size: 1.8rem; /* Lowered from 2.8rem */
-  font-weight: bold;
-  text-align: center;
-  background: linear-gradient(90deg, #fff 0%, var(--color-accent) 50%, #fff 100%);
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: shimmerText 4s linear infinite;
-  letter-spacing: 1.5px;
-}
-
-/* ============================================
-   Scrollable Container - COMPACT SIZE
-   ============================================ */
-.modify-container {
-  width: 100%;
-  max-width: 480px; /* Reduced from 600px */
-  background: rgba(90, 61, 61, 0.4);
-  backdrop-filter: blur(15px);
-  padding: 1.25rem;
-  border-radius: 18px;
-  border: 1.5px solid rgba(212, 165, 116, 0.2);
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  gap: 0.8rem; /* Tighter spacing between cards */
-  flex-grow: 1; 
-  overflow-y: auto; 
-  margin-bottom: 1.5rem;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-}
-
-/* Card adjustments for compact view */
-.book-card {
-  padding: 0.8rem 1rem; /* Slightly tighter cards */
-}
-
-.book-title {
-  font-size: 1.05rem; /* Slightly smaller text */
-}
-
-/* Stock Status Colors */
+/* Compact Layout Fix */
+.modify-page { height: 100vh; width: 100%; overflow: hidden; padding: 1.5rem 1rem; }
+.title-wrapper { margin-bottom: 1rem; }
+.modify-title { font-size: 1.8rem; font-weight: bold; text-align: center; background: linear-gradient(90deg, #fff 0%, var(--color-accent) 50%, #fff 100%); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: shimmerText 4s linear infinite; letter-spacing: 1.5px; }
+.modify-container { width: 100%; max-width: 480px; background: rgba(90, 61, 61, 0.4); backdrop-filter: blur(15px); padding: 1.25rem; border-radius: 18px; border: 1.5px solid rgba(212, 165, 116, 0.2); box-sizing: border-box; display: flex; flex-direction: column; gap: 0.8rem; flex-grow: 1; overflow-y: auto; margin-bottom: 1.5rem; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4); }
+.book-card { padding: 0.8rem 1rem; }
+.book-title { font-size: 1.05rem; }
 .stock-red { color: #ff5e5e !important; }
 .stock-yellow { color: #ffd633 !important; }
 .stock-green { color: #2ecc71 !important; }
-
-/* File Input Wrapper */
-.file-input-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px;
-  border: 2px dashed var(--color-accent);
-  border-radius: 10px;
-  background: rgba(255,255,255,0.05);
-}
-
-.file-icon { color: var(--color-accent); font-size: 1.2rem; }
-
-/* ============================================
-   Back Menu Button (Below Container)
-   ============================================ */
-.back-menu-btn {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: transparent;
-  color: var(--color-accent);
-  border: 1.5px solid var(--color-accent);
-  padding: 0.6rem 1.2rem;
-  border-radius: 30px;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 0.9rem;
-  transition: all 0.3s ease;
-  margin-top: 10px; /* Space between container and button */
-  z-index: 5;
-}
-.back-menu-btn:hover {
-  background: var(--color-accent);
-  color: #4b2e2a;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(212, 165, 116, 0.3);
-}
-
-/* Hide the old absolute header button */
-.header-button {
-  display: none !important;
-}
-
-/* Input Placeholder Fix */
-.book-form input[type="number"] {
-  -moz-appearance: textfield;
-}
-
-/* Ensure empty input looks clean */
-.book-form input::placeholder {
-  color: rgba(75, 46, 42, 0.4);
-}
-
-/* Error-like visual for PDF requirement */
-.file-input-wrapper {
-  border: 2px dashed #ff5e5e; /* Reddish dash to signal it's required */
-}
+.back-menu-btn { display: flex; align-items: center; gap: 8px; background: transparent; color: var(--color-accent); border: 1.5px solid var(--color-accent); padding: 0.6rem 1.2rem; border-radius: 30px; cursor: pointer; font-weight: 600; font-size: 0.9rem; transition: all 0.3s ease; margin-top: 10px; z-index: 5; }
+.back-menu-btn:hover { background: var(--color-accent); color: #4b2e2a; transform: translateY(-2px); box-shadow: 0 4px 15px rgba(212, 165, 116, 0.3); }
+.header-button { display: none !important; }
