@@ -74,8 +74,7 @@ function LoginPage() {
         >
           <div className="info-modal" onClick={(e) => e.stopPropagation()}>
             <h3>About Our Library Management System</h3>
-            <p>
-              This is a Library Management System (LMS) project. There are two types of users:
+            <p>The goal of this project is to create a functional Library Management System (LMS). This system will streamline processes such as borrowing books, tracking inventory, and managing user request.There are two types of users:
               <br /><br />
               1. Normal User - Can browse and borrow books.<br />
               2. Librarian - Can manage the library database, add/remove books, and handle users.

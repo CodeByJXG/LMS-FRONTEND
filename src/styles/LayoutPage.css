@@ -7,14 +7,15 @@
   left: 50%;
   transform: translate(-50%, -50%);
 
-  width: 90%;
+  width: 75%;
+  height:50%;
   max-width: 400px;
   min-height: auto; /* remove fixed height */
   padding-bottom: 60px; /* add space for admin button at bottom */     /* ensures space for admin button */
-  background: rgba(28, 22, 20, 0.9);
+  background:rgba(92, 64, 51, 1.0);
   padding: 2rem;
   border-radius: 20px;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.8);
   text-align: center;
 
   display: flex;
@@ -47,7 +48,7 @@
 }
 
 .login-container input {
-  width: 100%;
+  width: 90%;
   padding: 1rem;
   border-radius: 12px;
   border: 1px solid rgba(255,255,255,0.1);
@@ -98,7 +99,7 @@
    ======================== */
 .real-admin-link {
   position: absolute;
-  bottom: 125px;            /* always at bottom of container */
+  bottom: 90px;            /* always at bottom of container */
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -177,8 +178,9 @@
   border: 1px solid #e2b053;
   text-align: center;
   max-width: 360px;
-  width: 90%;
+  width: 75%;
   z-index: 10000;
+  margin-right:30px;
 }
 
 .admin-prompt-modal h3,

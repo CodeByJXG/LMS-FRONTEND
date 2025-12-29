@@ -4,6 +4,7 @@ import { FiEdit, FiTrash2, FiPlus, FiArrowLeft, FiFileText } from "react-icons/f
 import HeaderButton from "../components/HeaderButton";
 import "../styles/ModifyBooks.css";
 
+// 1. THE MODAL (At the top)
 function BookModal({ isOpen, type, bookData, onClose, onSave }) {
   const [formData, setFormData] = useState({ title: "", author: "", availability: "" });
   const [fileName, setFileName] = useState("");
@@ -27,7 +28,6 @@ function BookModal({ isOpen, type, bookData, onClose, onSave }) {
       alert("Please fill in all fields.");
       return;
     }
-    // Type check for PDF on new archives
     if (type === "add" && !fileSelected) {
       alert("PDF manuscript is required.");
       return;
@@ -67,33 +67,35 @@ function BookModal({ isOpen, type, bookData, onClose, onSave }) {
   );
 }
 
+// 2. THE MAIN COMPONENT
 export default function ModifyBooks() {
   const navigate = useNavigate();
-  const [books, setBooks] = useState([]);
+  const [books, setBooks] = useState([]); // Initialized as empty array
   const [modal, setModal] = useState({ isOpen: false, type: "add", data: null });
 
-  // Your Spring Boot API endpoint
   const API_URL = "http://localhost:8080/api/books"; 
 
-  // 1. Get Token helper
   const getAuthHeader = () => {
-    const token = localStorage.getItem("token"); // Assumes you store JWT in localStorage
+    const token = localStorage.getItem("token");
     return token ? { "Authorization": `Bearer ${token}` } : {};
   };
 
-  // 2. FETCH BOOKS (Filtered by librarian on backend)
   const fetchBooks = async () => {
     try {
       const res = await fetch(`${API_URL}/my`, { headers: getAuthHeader() });
       if (res.status === 401) return navigate("/login");
       const data = await res.json();
-      setBooks(data);
-    } catch (err) { console.error("Fetch error:", err); }
+      
+      // SAFETY: If backend returns an error object, force it to be an array
+      setBooks(Array.isArray(data) ? data : []);
+    } catch (err) { 
+      console.error("Fetch error:", err);
+      setBooks([]); // Fallback to empty array to prevent .map() crash
+    }
   };
 
   useEffect(() => { fetchBooks(); }, []);
 
-  // 3. DELETE BOOK
   const handleDelete = async (id, title) => {
     if (!window.confirm(`Delete "${title}"?`)) return;
     try {
@@ -105,7 +107,6 @@ export default function ModifyBooks() {
     } catch (err) { console.error("Delete error:", err); }
   };
 
-  // 4. ADD / UPDATE BOOK (Using Multipart/FormData)
   const handleSaveBook = async (formData, file) => {
     const url = modal.type === "add" ? API_URL : `${API_URL}/${modal.data.id}`;
     const method = modal.type === "add" ? "POST" : "PUT";
@@ -114,12 +115,12 @@ export default function ModifyBooks() {
     payload.append("title", formData.title);
     payload.append("author", formData.author);
     payload.append("availability", formData.availability);
-    if (file) payload.append("pdfFile", file); // Must match @RequestParam name in Java
+    if (file) payload.append("pdfFile", file);
 
     try {
       const res = await fetch(url, {
         method: method,
-        headers: getAuthHeader(), // Fetch automatically sets Content-Type for FormData
+        headers: getAuthHeader(),
         body: payload
       });
 
@@ -140,7 +141,8 @@ export default function ModifyBooks() {
         <h1 className="modify-title">Library Inventory</h1>
       </div>
       <div className="modify-container">
-        {books.map(book => {
+        {/* Only .map if books is an array and has items */}
+        {books.length > 0 ? books.map(book => {
           const count = Number(book.availability);
           const stockClass = count <= 0 ? "stock-red" : count < 5 ? "stock-yellow" : "stock-green";
           return (
@@ -158,7 +160,9 @@ export default function ModifyBooks() {
               </div>
             </div>
           );
-        })}
+        }) : (
+          <p className="no-books-text">No books found in your inventory.</p>
+        )}
       </div>
       <button className="back-menu-btn" onClick={() => navigate("/librarian")}><FiArrowLeft /> Back to Dashboard</button>
       <button className="add-btn" onClick={() => setModal({ isOpen: true, type: "add", data: null })}><FiPlus /></button>

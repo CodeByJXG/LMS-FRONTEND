@@ -36,8 +36,26 @@
   cursor: pointer;
   z-index: 100;
   transition: all 0.3s ease;
+  font-size: 2px;
 }
-
+.logout-btn-header {
+  position: fixed; 
+  bottom: 40px;
+  right: 80%;
+  width: 65px;
+  height: 65px;
+  background: var(--color-accent);
+  border: none;
+  border-radius: 50%;
+  color: var(--color-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 10px 20px rgba(212, 165, 116, 0.3);
+  transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  z-index: 100;
+}
 .settings-gear-btn:hover {
   background: var(--color-accent);
   color: var(--color-bg);
@@ -92,7 +110,7 @@
 .floating-message-btn {
   position: fixed; 
   bottom: 40px;
-  right: 40px;
+  left:80%;
   width: 65px;
   height: 65px;
   background: var(--color-accent);
@@ -207,4 +225,3 @@
   font-size: 1.2rem;
   color: #64748b;
 }
-

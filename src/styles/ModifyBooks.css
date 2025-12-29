@@ -171,8 +171,9 @@
 .book-form {
   background: rgba(90, 61, 61, 0.98);
   padding: 2.5rem; border-radius: 20px;
+  margin-right:30px;
   border: 2px solid var(--color-accent);
-  width: 450px; max-width: 95%;
+  width: 350px; max-width: 100%;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
   transform: scale(0.9) translateY(-30px);
   opacity: 0;

@@ -5,21 +5,20 @@ function ProtectedRoute({ children, requiredRole }) {
   const token = localStorage.getItem("token");
   const role = localStorage.getItem("role");
 
-  console.log("ProtectedRoute check:", { token, role, requiredRole });
-
-  // If no token, redirect to login
+  // 1. If there is no token, they aren't logged in at all
   if (!token) {
-    console.log("No token found, redirecting to login");
     return <Navigate to="/login" replace />;
   }
 
-  // If requiredRole is specified, check if user has that role
+  // 2. If a specific role is required (LIBRARIAN or USER)
   if (requiredRole && role !== requiredRole) {
-    console.log("Role mismatch, redirecting to login");
-    return <Navigate to="/login" replace />;
+    // If a User tries to enter a Librarian route, send them to User Home
+    // If a Librarian tries to enter a User route, send them to Librarian Home
+    const redirectPath = role === "LIBRARIAN" ? "/librarian" : "/user";
+    return <Navigate to={redirectPath} replace />;
   }
 
-  // User is authenticated and has correct role
+  // 3. If they are logged in and have the correct role (or no role is required for the page)
   return children;
 }
 

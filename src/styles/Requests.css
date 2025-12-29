@@ -208,6 +208,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+
   background: linear-gradient(135deg, #7c5b4a 0%, #6b4b3b 100%);
   padding: 1.25rem 1.5rem;
   border-radius: 15px;
@@ -218,6 +219,24 @@
   overflow: hidden;
   animation: cardSlideIn 0.5s ease-out both;
   border: 1px solid transparent;
+
+  text-align: left;
+}
+
+/* 🔥 THIS is the real fix */
+/* 🔥 FORCE text block to occupy left space */
+.request-card > div:first-child {
+  flex: 1;                    /* THIS is the key */
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  text-align: left;
+}
+
+/* ensure text itself is left */
+.request-card p {
+  margin: 0;
+  text-align: left;
 }
 
 .request-card::before {
@@ -548,4 +567,29 @@
     min-width: 2.5rem;
     min-height: 2.5rem;
   }
+}
+
+/* 1. Make sure cards themselves are not centered internally */
+.request-card {
+  justify-content: flex-start !important;
+}
+
+/* 2. Push action buttons to the right */
+.request-actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+}
+
+/* 3. Force text block to the LEFT */
+.request-card > div:first-child {
+  flex: none !important;
+  width: auto !important;
+  text-align: left !important;
+}
+
+/* 4. Force paragraph left alignment */
+.request-card p {
+  text-align: left !important;
+  margin: 0 !important;
 }

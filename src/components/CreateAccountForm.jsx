@@ -13,12 +13,24 @@ function CreateAccountForm() {
   const handleCreate = async (e) => {
     e.preventDefault();
     setError("");
+
+    // Validation checks
+    if (username.length < 6) {
+      setError("Username must be at least 6 characters long");
+      return;
+    }
+
+    if (password.length < 7) {
+      setError("Password must be at least 7 characters long");
+      return;
+    }
+
     setLoading(true);
 
     try {
-      const requestBody = { username, password, role: "USER" }; // Only user accounts
+      const requestBody = { username, password, role: "USER" };
 
-      const response = await fetch("http://localhost:8080/api/users/create", {
+      const response = await fetch("http://localhost:8080/api/auth/create", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(requestBody),
@@ -29,7 +41,7 @@ function CreateAccountForm() {
         throw new Error(errorData.message || "Failed to create account");
       }
 
-      navigate("/login"); // Go back to login after successful creation
+      navigate("/login");
     } catch (err) {
       setError(err.message || "Failed to create account");
     } finally {
@@ -44,14 +56,14 @@ function CreateAccountForm() {
         <form onSubmit={handleCreate}>
           <input
             type="text"
-            placeholder="Username"
+            placeholder="Username (min. 6 characters)"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
           />
           <input
             type="password"
-            placeholder="Password"
+            placeholder="Password (min. 7 characters)"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
@@ -72,5 +84,4 @@ function CreateAccountForm() {
     </div>
   );
 }
-
 export default CreateAccountForm;
