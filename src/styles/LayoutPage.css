@@ -315,3 +315,22 @@
     font-size: 4.5rem;
   }
 }
+.descriptive-error-box {
+    background-color: #fff1f0;
+    border: 1px solid #ffa39e;
+    padding: 12px;
+    border-radius: 4px;
+    margin-top: 15px;
+}
+
+.error-title {
+    color: #cf1322;
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+.error-body {
+    color: #5c0011;
+    font-size: 0.9rem;
+}
+

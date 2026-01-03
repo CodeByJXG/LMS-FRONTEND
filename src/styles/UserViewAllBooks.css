@@ -1,0 +1,63 @@
+.uv-page {
+  background: #1a0f0e;
+  min-height: 100vh;
+  padding: 40px;
+  color: #fff;
+}
+
+.uv-nav {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.uv-back {
+  background: #d4a574;
+  border: none;
+  width: 45px;
+  height: 45px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.uv-search-wrapper {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.uv-search-wrapper input {
+  width: 100%;
+  padding: 12px 40px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(212, 165, 116, 0.3);
+  border-radius: 10px;
+  color: #fff;
+}
+
+.uv-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.uv-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 20px;
+  border-radius: 15px;
+}
+
+.uv-req-btn {
+  background: #d4a574;
+  color: #1a0f0e;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.uv-status.pending { color: #d4a574; }
+.uv-status.accepted { color: #28a745; }
