@@ -548,3 +548,103 @@ button {
   0% { transform: translateX(-20px); opacity: 0; }
   100% { transform: translateX(0); opacity: 1; }
 }
+
+/* VIEW ALL BOOKS - USER CARD TWEAKS */
+.user-variant {
+    border: 1px solid rgba(212, 165, 116, 0.15);
+    height: 180px !important;
+}
+
+.user-request-btn {
+    margin-top: 15px;
+    background: #d4a574;
+    color: #2d1b19;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.user-request-btn:hover {
+    background: #fff;
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(212, 165, 116, 0.3);
+}
+
+/* REQUEST STATUS PAGE - USER TWEAKS */
+.user-status-card {
+    border-left: 4px solid #d4a574;
+}
+
+.badge-pill {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.b-pending { background: rgba(212, 165, 116, 0.1); color: #d4a574; }
+.b-active { background: rgba(40, 167, 69, 0.1); color: #28a745; }
+.b-declined { background: rgba(220, 53, 69, 0.1); color: #dc3545; }
+
+.active-action-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.user-download-btn-pill {
+    background: #d4a574;
+    border: none;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    color: #2d1b19;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.user-download-btn-pill:hover {
+    background: #fff;
+    transform: translateY(-3px);
+}
+
+/* HEADER TOP ACTIONS */
+.top-actions {
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    display: flex;
+    gap: 12px;
+}
+
+.logout-btn-header {
+    width: 50px;
+    height: 50px;
+    background: rgba(220, 53, 69, 0.05);
+    border: 1px solid rgba(220, 53, 69, 0.2);
+    border-radius: 12px;
+    color: #dc3545;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.logout-btn-header:hover {
+    background: #dc3545;
+    color: #fff;
+}

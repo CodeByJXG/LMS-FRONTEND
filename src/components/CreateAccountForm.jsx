@@ -13,8 +13,21 @@ function CreateAccountForm() {
   const handleCreate = async (e) => {
     e.preventDefault();
     setError("");
+
+    // Validation checks
+    if (username.length < 6) {
+      setError("Username must be at least 6 characters long");
+      return;
+    }
+
+    if (password.length < 7) {
+      setError("Password must be at least 7 characters long");
+      return;
+    }
+
     setLoading(true);
 
+<<<<<<< HEAD
     // 1. Frontend descriptive validation
     if (username.trim().length < 3) {
       setError("Username Requirement: Your chosen name is too short. Please use at least 3 characters.");
@@ -28,6 +41,11 @@ function CreateAccountForm() {
     }
 
     try {
+=======
+    try {
+      const requestBody = { username, password, role: "USER" };
+
+>>>>>>> 0f21aed936d4d106e019e05da2b08af6beb68696
       const response = await fetch("http://localhost:8080/api/auth/create", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -47,6 +65,7 @@ function CreateAccountForm() {
         }
       }
 
+<<<<<<< HEAD
       // 3. Descriptive Error Mapping based on Status Codes
       if (!response.ok) {
         if (response.status === 409) {
@@ -64,6 +83,9 @@ function CreateAccountForm() {
       alert("Registration Successful! Welcome to the library.");
       navigate("/login");
 
+=======
+      navigate("/login");
+>>>>>>> 0f21aed936d4d106e019e05da2b08af6beb68696
     } catch (err) {
       // 5. Friendly Network/System Error Handling
       if (err.message.includes("Failed to fetch")) {
@@ -80,6 +102,7 @@ function CreateAccountForm() {
   return (
     <div className="login-page">
       <div className="login-container">
+<<<<<<< HEAD
         <header className="form-header">
           <h2>Create User Account</h2>
           <p>Register to view and request book archives.</p>
@@ -110,6 +133,26 @@ function CreateAccountForm() {
 
           <button type="submit" className="submit-btn" disabled={loading}>
             {loading ? "Creating Profile..." : "Sign Up"}
+=======
+        <h2>Create Account</h2>
+        <form onSubmit={handleCreate}>
+          <input
+            type="text"
+            placeholder="Username (min. 6 characters)"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+          />
+          <input
+            type="password"
+            placeholder="Password (min. 7 characters)"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+          <button type="submit" disabled={loading}>
+            {loading ? "Creating..." : "Create Account"}
+>>>>>>> 0f21aed936d4d106e019e05da2b08af6beb68696
           </button>
         </form>
 
@@ -130,5 +173,9 @@ function CreateAccountForm() {
     </div>
   );
 }
+<<<<<<< HEAD
 
 export default CreateAccountForm;
+=======
+export default CreateAccountForm;
+>>>>>>> 0f21aed936d4d106e019e05da2b08af6beb68696

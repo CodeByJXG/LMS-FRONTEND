@@ -4,6 +4,7 @@ import { FiEdit, FiTrash2, FiPlus, FiArrowLeft, FiFileText } from "react-icons/f
 import HeaderButton from "../components/HeaderButton";
 import "../styles/ModifyBooks.css";
 
+// 1. THE MODAL (At the top)
 function BookModal({ isOpen, type, bookData, onClose, onSave }) {
   const [formData, setFormData] = useState({ title: "", author: "", availability: 0 });
   const [fileName, setFileName] = useState("");
@@ -35,11 +36,14 @@ function BookModal({ isOpen, type, bookData, onClose, onSave }) {
       alert("Missing Information: Please enter a Book Title.");
       return;
     }
+<<<<<<< HEAD
     if (!formData.author.trim()) {
       alert("Missing Information: Please enter the Author's name.");
       return;
     }
 
+=======
+>>>>>>> 0f21aed936d4d106e019e05da2b08af6beb68696
     if (type === "add" && !fileSelected) {
       alert("File Required: You must upload a PDF manuscript to register a new book.");
       return;
@@ -104,15 +108,24 @@ function BookModal({ isOpen, type, bookData, onClose, onSave }) {
   );
 }
 
+// 2. THE MAIN COMPONENT
 export default function ModifyBooks() {
   const navigate = useNavigate();
-  const [books, setBooks] = useState([]);
+  const [books, setBooks] = useState([]); // Initialized as empty array
   const [modal, setModal] = useState({ isOpen: false, type: "add", data: null });
   const API_URL = "http://localhost:8080/api/books";
 
+<<<<<<< HEAD
   const getAuthHeader = () => {
     const token = localStorage.getItem("token");
     return token ? { Authorization: `Bearer ${token}` } : {};
+=======
+  const API_URL = "http://localhost:8080/api/books"; 
+
+  const getAuthHeader = () => {
+    const token = localStorage.getItem("token");
+    return token ? { "Authorization": `Bearer ${token}` } : {};
+>>>>>>> 0f21aed936d4d106e019e05da2b08af6beb68696
   };
 
   const fetchBooks = async () => {
@@ -120,10 +133,19 @@ export default function ModifyBooks() {
       const res = await fetch(`${API_URL}/my`, { headers: getAuthHeader() });
       if (res.status === 401) return navigate("/login");
       const data = await res.json();
+<<<<<<< HEAD
       setBooks(data);
     } catch (err) {
       console.error("Fetch error:", err);
       // alert("Error: Could not retrieve your book list from the server.");
+=======
+      
+      // SAFETY: If backend returns an error object, force it to be an array
+      setBooks(Array.isArray(data) ? data : []);
+    } catch (err) { 
+      console.error("Fetch error:", err);
+      setBooks([]); // Fallback to empty array to prevent .map() crash
+>>>>>>> 0f21aed936d4d106e019e05da2b08af6beb68696
     }
   };
 
@@ -156,9 +178,15 @@ export default function ModifyBooks() {
 
     try {
       const res = await fetch(url, {
+<<<<<<< HEAD
         method,
         headers: getAuthHeader(),
         body: payload,
+=======
+        method: method,
+        headers: getAuthHeader(),
+        body: payload
+>>>>>>> 0f21aed936d4d106e019e05da2b08af6beb68696
       });
 
       if (res.ok) {
@@ -200,7 +228,12 @@ export default function ModifyBooks() {
       <HeaderButton onClick={() => navigate("/librarian/credentials")} />
       <h1 className="modify-title">Library Inventory</h1>
       <div className="modify-container">
+<<<<<<< HEAD
         {books.map((book) => {
+=======
+        {/* Only .map if books is an array and has items */}
+        {books.length > 0 ? books.map(book => {
+>>>>>>> 0f21aed936d4d106e019e05da2b08af6beb68696
           const count = Number(book.availability);
           const stockClass = count <= 0 ? "stock-red" : count < 5 ? "stock-yellow" : "stock-green";
           return (
@@ -218,7 +251,9 @@ export default function ModifyBooks() {
               </div>
             </div>
           );
-        })}
+        }) : (
+          <p className="no-books-text">No books found in your inventory.</p>
+        )}
       </div>
       <button className="back-menu-btn" onClick={() => navigate("/librarian")}><FiArrowLeft /> Back</button>
       <button className="add-btn" onClick={() => setModal({ isOpen: true, type: "add", data: null })}><FiPlus /></button>

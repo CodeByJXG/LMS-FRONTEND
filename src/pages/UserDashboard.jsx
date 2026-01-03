@@ -1,13 +1,23 @@
+<<<<<<< HEAD
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import DashboardButton from "../components/DashboardButton";
 import MessageModal from "../components/MessageModal";
 import { FiMessageSquare, FiUser, FiSettings, FiLogOut } from "react-icons/fi"; 
 import "../styles/UserDashboard.css";
+=======
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import DashboardButton from "../components/DashboardButton";
+import MessageModal from "../components/MessageModal";
+import { FiMessageSquare, FiSettings, FiLogOut } from "react-icons/fi"; 
+import "../styles/UserDashboard.css"; 
+>>>>>>> 0f21aed936d4d106e019e05da2b08af6beb68696
 
 function UserDashboard() {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
+<<<<<<< HEAD
   const [username, setUsername] = useState("");
   const token = localStorage.getItem("token");
 
@@ -31,6 +41,9 @@ function UserDashboard() {
     if (token) fetchUser();
     else navigate("/login");
   }, [token, navigate]);
+=======
+  const username = localStorage.getItem("username") || "Reader";
+>>>>>>> 0f21aed936d4d106e019e05da2b08af6beb68696
 
   const handleLogout = () => {
     localStorage.clear();
@@ -38,6 +51,7 @@ function UserDashboard() {
   };
 
   return (
+<<<<<<< HEAD
     <div className="user-dashboard-page">
       {/* Top Navigation Bar Logic */}
       <div className="user-nav-top">
@@ -81,6 +95,33 @@ function UserDashboard() {
 
         {/* Messaging Logic */}
         <button className="user-floating-message-btn" onClick={() => setShowModal(true)}>
+=======
+    <div className="dashboard-page">
+      <div className="dashboard-wrapper">
+        <div className="top-actions">
+          <button className="settings-gear-btn" onClick={() => navigate("/user/credentials")}>
+            <FiSettings size={22} />
+          </button>
+          <button className="logout-btn-header" onClick={handleLogout}>
+            <FiLogOut size={22} />
+          </button>
+        </div>
+
+        <div className="dashboard-content">
+          <header className="dashboard-header">
+            <h1 className="dashboard-title">LMS</h1>
+            <div className="dashboard-divider"></div>
+            <p className="dashboard-subtitle">Reader Portal</p>
+          </header>
+          
+          <div className="dashboard-container">
+            <DashboardButton text="Browse Catalog" onClick={() => navigate("/user/viewallbooks")} />
+            <DashboardButton text="My Requests" onClick={() => navigate("/user/my-requests")} />
+          </div>
+        </div>
+
+        <button className="floating-message-btn" onClick={() => setShowModal(true)}>
+>>>>>>> 0f21aed936d4d106e019e05da2b08af6beb68696
           <FiMessageSquare size={24} />
         </button>
       </div>
@@ -90,4 +131,8 @@ function UserDashboard() {
   );
 }
 
+<<<<<<< HEAD
 export default UserDashboard;
+=======
+export default UserDashboard;
+>>>>>>> 0f21aed936d4d106e019e05da2b08af6beb68696

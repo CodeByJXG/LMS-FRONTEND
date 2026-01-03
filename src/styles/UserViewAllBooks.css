@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .uv-page {
   background: #1a0f0e;
   min-height: 100vh;
@@ -61,3 +62,214 @@
 
 .uv-status.pending { color: #d4a574; }
 .uv-status.accepted { color: #28a745; }
+=======
+.view-page-wrapper {
+  --local-gold: #d4a574;
+  --local-bg: #221513;
+  --local-card-bg: rgba(90, 61, 61, 0.25);
+  
+  height: 100vh;
+  width: 100vw;
+  background: radial-gradient(circle at top right, #3d2623, #1a0f0e);
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* Prevents whole page scroll */
+}
+
+/* --- Nav Bar Layout --- */
+.view-navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 2rem;
+  flex-shrink: 0;
+}
+
+.back-arrow-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(212, 165, 116, 0.3);
+  color: var(--local-gold);
+  width: 50px;
+  height: 50px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size:1px;
+}
+
+.inventory-stats {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.stats-count {
+  color: var(--local-gold);
+  font-size: 1.4rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.stats-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  opacity: 0.6;
+}
+
+/* --- Perfectly Centered Header --- */
+.view-main-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centers everything horizontally */
+  text-align: center;
+  padding: 1rem 0 2.5rem;
+  flex-shrink: 0;
+}
+
+.hero-logo-container {
+  color: var(--local-gold);
+  margin-bottom: 0.5rem;
+  filter: drop-shadow(0 0 15px rgba(212, 165, 116, 0.3));
+}
+
+.hero-text {
+  font-size: 3rem;
+  margin: 0 0 1.5rem 0;
+  background: linear-gradient(to bottom, #fff, var(--local-gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Search Bar with side margins */
+.search-box-row {
+  width: 100%;
+  padding: 0 10%; /* Creates the left/right margin */
+  display: flex;
+  justify-content: center;
+}
+
+.search-box-container {
+  position: relative;
+  width: 100%;
+  max-width: 75%;
+  margin-left:-15%;
+}
+
+.search-box-container input {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(212, 165, 116, 0.2);
+  padding: 14px 14px 14px 45px;
+  border-radius: 30px;
+  color: #fff;
+  outline: none;
+  transition: 0.3s;
+}
+
+.search-box-container input:focus {
+  border-color: var(--local-gold);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.search-inner-icon {
+  position: absolute;
+  left: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--local-gold);
+}
+
+/* --- Scrollable Viewport --- */
+.scroll-viewport {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 0 2rem 3rem 2rem;
+  /* Smooth scrollbar for Chrome/Safari */
+}
+
+.scroll-viewport::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scroll-viewport::-webkit-scrollbar-thumb {
+  background: rgba(212, 165, 116, 0.3);
+  border-radius: 10px;
+}
+
+.inventory-grid-layout {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* Scoped Card Design */
+.view-inventory-card {
+  background: var(--local-card-bg);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 18px;
+  padding: 1.5rem;
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.vic-title {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.vic-author {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.85rem;
+  margin: 4px 0 0;
+}
+
+.vic-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 10px;
+}
+
+.vic-location { font-size: 0.8rem; margin: 0; }
+.vic-location span { color: var(--local-gold); }
+.vic-year-badge {
+  background: rgba(212, 165, 116, 0.1);
+  color: var(--local-gold);
+  padding: 2px 8px;
+  border-radius: 5px;
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+
+.user-request-btn{
+    margin-top:20px;
+}
+/* Styling for the Out of Stock badge to match your Pending/Accepted style */
+.status-badge-btn.out-of-stock {
+  background: rgba(220, 53, 69, 0.1) !important; /* Soft red background */
+  color: #ff4d4d !important;
+  border: 1px solid rgba(255, 77, 77, 0.3) !important;
+  cursor: not-allowed;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  opacity: 0.8;
+}
+
+/* Optional: change the Qty badge color when it's zero */
+.vic-year-badge.zero-stock {
+  background: #ff4d4d !important;
+  color: white !important;
+}
+>>>>>>> 0f21aed936d4d106e019e05da2b08af6beb68696

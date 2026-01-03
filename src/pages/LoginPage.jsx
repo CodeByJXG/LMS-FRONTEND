@@ -60,6 +60,34 @@ function LoginPage() {
                     <button className="no-btn" onClick={() => setShowAdminPrompt(false)}>No</button>
                 </div>
             </div>
+<<<<<<< HEAD
+=======
+          </div>
+        </div>
+      )}
+
+      {/* Info Modal */}
+      {showInfo && (
+        <div 
+          className="modal-overlay active" 
+          onClick={() => setShowInfo(false)}
+        >
+          <div className="info-modal" onClick={(e) => e.stopPropagation()}>
+            <h3>About Our Library Management System</h3>
+            <p>The goal of this project is to create a functional Library Management System (LMS). This system will streamline processes such as borrowing books, tracking inventory, and managing user request.There are two types of users:
+              <br /><br />
+              1. Normal User - Can browse and borrow books.<br />
+              2. Librarian - Can manage the library database, add/remove books, and handle users.
+              <br /><br />
+              Only the Real Admin can create a Librarian account. Use the "Real Admin" button below to contact the admin.
+            </p>
+            <div className="info-modal-buttons">
+              <button className="info-close-btn" onClick={() => setShowInfo(false)}>
+                Close
+              </button>
+            </div>
+          </div>
+>>>>>>> 0f21aed936d4d106e019e05da2b08af6beb68696
         </div>
       )}
     </div>
